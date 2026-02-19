@@ -35,7 +35,7 @@ jobs:
       - name: "Set up Terraform"
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.8.3"
+          terraform_version: "1.13.3"
 
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v4
@@ -53,17 +53,19 @@ jobs:
             -backend-config="region=${{ inputs.aws-region }}" \
             -backend-config="use_lockfile=true"
 
-      - name: Terraform fmt & validate
-        run: terraform fmt && terraform validate
+      - name: Terraform Validate
+        run: terraform validate
 
       - name: Terraform Plan
         id: terraform-plan
         run: |
-          cd infra && terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }} && \
+          cd infra &&
+          terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }} &&
           terraform plan -var-file="./envs/${{ inputs.environment }}/terraform.tfvars" -out="${{ inputs.environment }}.tfplan"
 
       - name: Terraform Apply
         id: terraform-apply
         run: |
-          cd infra && terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }} && \
+          cd infra &&
+          terraform workspace select ${{ inputs.environment }} || terraform workspace new ${{ inputs.environment }} &&
           terraform apply "${{ inputs.environment }}.tfplan"

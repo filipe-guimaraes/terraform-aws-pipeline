@@ -1,9 +1,9 @@
-variable "vpc_cidr_block"{
-  type = string
-  default = ""
+variable "vpc_cidr_block" {
+  type    = string
+  default = "172.16.0.0/16"
 }
 
 variable "vpc_name" {
-  type = string
-  default = ""
+  type    = string
+  default = "environment-vpc"
 }
