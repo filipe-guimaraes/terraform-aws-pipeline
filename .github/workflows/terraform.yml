@@ -53,8 +53,8 @@ jobs:
             -backend-config="region=${{ inputs.aws-region }}" \
             -backend-config="use_lockfile=true"
 
-      - name: Terraform fmt & validate
-        run: terraform fmt && terraform validate
+      - name: Terraform Validate
+        run: terraform validate
 
       - name: Terraform Plan
         id: terraform-plan
